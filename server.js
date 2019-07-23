@@ -1,6 +1,5 @@
 const express = require('express');
 const PORT = process.env.PORT || 3001;
-const knex = require('./knex/knex.js');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -18,10 +17,6 @@ app.use(cors());
 app.use('/static', express.static(path.join(__dirname, 'assets', 'image')));
 // app.use('/api/comman', require('./routes/common'))
 app.use('/api/admin', require('./routes/admin'))
-
-app.get('/tasks', (req, res) => {
-  // use the knex variable above to create dynamic queries
-});
 
 app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);

@@ -2,47 +2,50 @@
 exports.up = function(knex) {
     return knex.schema
       .createTable('users', function (table) {
-         table.increments('id');
-         table.string('first_name', 255).notNullable();
-         table.string('last_name', 255).notNullable();
-         table.boolean('isAdmin').notNullable();
+        stable.increments('id');
+        table.string('first_name', 255).notNullable();
+        table.string('last_name', 255).notNullable();
+        table.boolean('isAdmin').notNullable();
 
       })
       .createTable('chats', function (table) {
-         table.increments('id');
-         table.string('name', 1000).notNullable();
-         table.integer('source_id').unsigned()
-         table.foreign('source_id').references('users.id')
-         table.integer('destination_id').unsigned()
-         table.foreign('destination_id').references('users.id')
-         
+        table.increments('id');
+        table.integer('author_id').unsigned()
+        table.foreign('author_id').references('users.id')
+        table.string('name', 1000).notNullable();         
       })
       .createTable('messages', function (table) {
         table.increments('id');
         table.string('text', 1000).notNullable();
+        table.foreign('user_id').references('users.id')
+        table.integer('chat_id').unsigned()
+        table.foreign('chat_id').references('chats.id')
+        table.integer('source_id').unsigned()
+        table.foreign('source_id').references('users.id')
+        table.integer('destination_id').unsigned()
+        table.foreign('destination_id').references('users.id')
      })
      .createTable('files', function (table) {
         table.increments('id');
         table.string('name', 1000).notNullable();
+        table.integer('messages_id').unsigned()
+        table.foreign('messages_id').references('messages.id')
      })
-     .createTable('chats_messages', function(table){
-        table.increments('id').primary();
-        table.integer('chats_id').unsigned().references('chats.id');
-        table.integer('messages_id').unsigned().references('messages.id');
-      })
-      .createTable('chats_files', function(table){
-        table.increments('id').primary();
-        table.integer('chats_id').unsigned().references('chats.id');
-        table.integer('files_id').unsigned().references('files.id');
-      })
+      .createTable('users_chats', function (table) {
+        table.increments('id');
+        table.string('text', 1000).notNullable();
+        table.integer('user_id').unsigned()
+        table.foreign('user_id').references('users.id')
+        table.integer('chat_id').unsigned()
+        table.foreign('chat_id').references('chats.id')
+     })
   };
   
   exports.down = function(knex) {
     return knex.schema
-        .dropTable("chats_messages")
-        .dropTable("chats_files")
         .dropTable("files")
         .dropTable("messages")
+        .dropTable("users_chats")
         .dropTable("chats")
         .dropTable("user");
   };

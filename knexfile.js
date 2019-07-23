@@ -6,9 +6,9 @@ module.exports = {
     client: 'mysql',
     connection: {
       host : '127.0.0.1',
-      user : 'username',
-      password : 'password',
-      database : 'db_name',
+      user : 'annaniks',
+      password : 'annaniks',
+      database : 'chats',
       charset: 'utf8'
     },
     migrations: {
