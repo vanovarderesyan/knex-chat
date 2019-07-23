@@ -14,8 +14,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
-app.use('/static', express.static(path.join(__dirname, 'assets', 'image')));
-// app.use('/api/comman', require('./routes/common'))
+console.log((path.join(__dirname, 'uploads', 'files')));
+
+app.use('/uploads/files', express.static(path.join(__dirname, 'uploads', 'files')));
+app.use('/api/common', require('./routes/common'))
 app.use('/api/admin', require('./routes/admin'))
 
 app.listen(PORT, () => {

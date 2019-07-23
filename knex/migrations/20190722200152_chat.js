@@ -2,7 +2,7 @@
 exports.up = function(knex) {
     return knex.schema
       .createTable('users', function (table) {
-        stable.increments('id');
+        table.increments('id');
         table.string('first_name', 255).notNullable();
         table.string('last_name', 255).notNullable();
         table.boolean('isAdmin').notNullable();
@@ -17,7 +17,6 @@ exports.up = function(knex) {
       .createTable('messages', function (table) {
         table.increments('id');
         table.string('text', 1000).notNullable();
-        table.foreign('user_id').references('users.id')
         table.integer('chat_id').unsigned()
         table.foreign('chat_id').references('chats.id')
         table.integer('source_id').unsigned()
@@ -27,13 +26,12 @@ exports.up = function(knex) {
      })
      .createTable('files', function (table) {
         table.increments('id');
-        table.string('name', 1000).notNullable();
+        table.string('path', 1000).notNullable();
         table.integer('messages_id').unsigned()
         table.foreign('messages_id').references('messages.id')
      })
       .createTable('users_chats', function (table) {
         table.increments('id');
-        table.string('text', 1000).notNullable();
         table.integer('user_id').unsigned()
         table.foreign('user_id').references('users.id')
         table.integer('chat_id').unsigned()

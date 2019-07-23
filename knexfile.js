@@ -1,14 +1,12 @@
 // Update with your config settings.
-
 module.exports = {
-
   development:  {
     client: 'mysql',
     connection: {
       host : '127.0.0.1',
-      user : 'annaniks',
-      password : 'annaniks',
-      database : 'chats',
+      user : 'root',
+      password : 'katnajur@1994',
+      database : 'chat',
       charset: 'utf8'
     },
     migrations: {
