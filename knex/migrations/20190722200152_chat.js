@@ -27,23 +27,23 @@ exports.up = function(knex) {
      .createTable('files', function (table) {
         table.increments('id');
         table.string('path', 1000).notNullable();
-        table.integer('messages_id').unsigned()
-        table.foreign('messages_id').references('messages.id')
+        table.integer('message_id').unsigned()
+        table.foreign('message_id').references('messages.id')
      })
-      .createTable('users_chats', function (table) {
-        table.increments('id');
-        table.integer('user_id').unsigned()
-        table.foreign('user_id').references('users.id')
-        table.integer('chat_id').unsigned()
-        table.foreign('chat_id').references('chats.id')
-     })
+    //   .createTable('users_chats', function (table) {
+    //     table.increments('id');
+    //     table.integer('user_id').unsigned()
+    //     table.foreign('user_id').references('users.id')
+    //     table.integer('chat_id').unsigned()
+    //     table.foreign('chat_id').references('chats.id')
+    //  })
   };
   
   exports.down = function(knex) {
     return knex.schema
         .dropTable("files")
         .dropTable("messages")
-        .dropTable("users_chats")
+        // .dropTable("users_chats")
         .dropTable("chats")
         .dropTable("user");
   };

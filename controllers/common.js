@@ -69,8 +69,8 @@ module.exports = {
             .then((id) => {
                 req.files.forEach(element => {
                     insertedList.push({
-                        name:element.path,
-                        messages_id:id
+                        path:element.path,
+                        message_id:id
                     })
                 });
                 knex('files').insert(insertedList)
