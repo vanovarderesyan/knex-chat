@@ -24,6 +24,16 @@ export default {
             })
     },
 
+    registration(req, res) {
+        return knex('users').insert(req.body)
+            .then((chats) => {
+                res.status(200).json(chats)
+            })
+            .catch((err) => {
+                res.status(400).json(err)
+            })
+    },
+
 
     getChats(req, res) {
         return knex.select('chats.id as chat_id', 'users.last_name as author_last_name', 'users.first_name as author_first_name', 'author_id', 'name')

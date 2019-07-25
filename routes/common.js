@@ -7,6 +7,10 @@ let { common } = indexController;
 
 //get all user
 router.get('/index', common.findAll)
+
+
+//create common user
+router.post('/registration', common.registration)
     /*crate chat
         body example 
         {
@@ -81,8 +85,5 @@ router.post('/messages', common.crateMessages)
         ]
     */
 router.post('/files', common.crateFiles)
-
-
-
 
 export default router;

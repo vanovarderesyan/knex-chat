@@ -24,7 +24,7 @@ const Messages = bookshelf.Model.extend({
 export default {
     // Find all user
     findAll(req, res) {
-        return knex.select('*').from('users')
+        return knex.select('*').from('users').where('isAdmin', 0)
             .then(users => res.status(200).json(users))
             .catch(error => res.status(400).json(error))
     },

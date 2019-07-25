@@ -4,21 +4,21 @@ exports.up = function(knex) {
             table.increments('id');
             table.string('first_name', 255).notNullable();
             table.string('last_name', 255).notNullable();
-            table.boolean('isAdmin').notNullable();
+            table.boolean('isAdmin').notNullable().default(false);
 
         })
         .createTable('chats', function(table) {
             table.increments('id');
-            table.integer('author_id').unsigned()
+            table.integer('author_id').unsigned().notNullable()
             table.foreign('author_id').references('users.id')
             table.string('name', 1000).notNullable();
         })
         .createTable('messages', function(table) {
             table.increments('id');
             table.string('text', 1000).notNullable();
-            table.integer('chat_id').unsigned()
+            table.integer('chat_id').unsigned().notNullable()
             table.foreign('chat_id').references('chats.id')
-            table.integer('source_id').unsigned()
+            table.integer('source_id').unsigned().notNullable()
             table.foreign('source_id').references('users.id')
             table.integer('destination_id').unsigned()
             table.foreign('destination_id').references('users.id')
@@ -42,9 +42,8 @@ exports.down = function(knex) {
     return knex.schema
         .dropTable("files")
         .dropTable("messages")
-        // .dropTable("users_chats")
         .dropTable("chats")
-        .dropTable("user");
+        .dropTable("users");
 };
 
 exports.config = { transaction: false };
