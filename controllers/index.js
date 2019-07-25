@@ -1,9 +1,9 @@
-const common = require('./common');
-const admin = require('./admin');
+import common from './common';
+import admin from './admin';
 
 
 
-module.exports = {
+export default {
     common,
     admin
 }

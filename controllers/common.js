@@ -1,18 +1,18 @@
-const knex = require('../knex/knex');
-const multer = require('multer');
+import knex from '../knex/knex';
+import multer from 'multer';
 
 let storage = multer.diskStorage({
-    destination: function (req, file, callback) {
+    destination: function(req, file, callback) {
         callback(null, './uploads/files');
     },
-    filename: function (req, file, callback) {
-        callback(null, file.fieldname + '-' + Date.now()+'-'+file.originalname);
+    filename: function(req, file, callback) {
+        callback(null, file.fieldname + '-' + Date.now() + '-' + file.originalname);
     }
 });
 
 let upload = multer({ storage: storage }).array('chatFiles', 100);
 
-module.exports = {
+export default {
     // Create a new chats
     createChat(req, res) {
         return knex('chats').insert(req.body)
@@ -54,34 +54,34 @@ module.exports = {
             .catch(error => res.status(400).json(error))
     },
 
-    crateFiles(req,res){
-        upload(req,res,function(err) {
+    crateFiles(req, res) {
+        upload(req, res, function(err) {
             console.log(req.body);
             console.log(req.files);
-            if(err) {
+            if (err) {
                 return res.end("Error uploading file.");
             }
 
             let insertedList = [];
             let data = req.body;
             knex('messages').insert(data)
-            .returning('id')
-            .then((id) => {
-                req.files.forEach(element => {
-                    insertedList.push({
-                        path:element.path,
-                        message_id:id
-                    })
-                });
-                knex('files').insert(insertedList)
-                    .then(result => res.status(200).json({
-                        message:"File is uploaded"
-                    }))
-                    .catch(err => res.status(400).json(err))
-            })
-            .catch((err) => {
-                res.status(400).json(err)
-            })
+                .returning('id')
+                .then((id) => {
+                    req.files.forEach(element => {
+                        insertedList.push({
+                            path: element.path,
+                            message_id: id
+                        })
+                    });
+                    knex('files').insert(insertedList)
+                        .then(result => res.status(200).json({
+                            message: "File is uploaded"
+                        }))
+                        .catch(err => res.status(400).json(err))
+                })
+                .catch((err) => {
+                    res.status(400).json(err)
+                })
         });
     },
 }
